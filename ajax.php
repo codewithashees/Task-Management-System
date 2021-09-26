@@ -136,10 +136,10 @@ function save_todo_task(){
 function show_todo_data(){
 	require "init.php";
 	$todo_id = $_POST['todo_id'];
-	
-	$result = mysqli_query($con, "SELECT * FROM todos WHERE todo_id = '$todo_id'");
-	
-	while($row = mysqli_fetch_assoc($result)){
+
+	$sql = $con->prepare("SELECT * FROM todos WHERE todo_id = ?");
+	$sql->execute(array($todo_id));
+	while($row = $sql->fetch(PDO::ASSOC)){
 		$output = $row;
 	}
 	echo json_encode($output);
